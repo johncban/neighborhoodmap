@@ -28,26 +28,21 @@ function appViewModel() {
     self.showWeatherInfo = ko.observable(true);
     self.showMapOptions = ko.observable(false);
 
-    self.showPlaceTable = ko.observable(true);
-
 
     self.localLocation = new google.maps.LatLng(40.7058683, -74.0135793);
     self.placeArray = ko.observableArray([]);
 
-    self.allListPlaces = ko.observableArray([]);
+    self.allListPlaces = ko.observableArray([]); //pushes all the list of places for the marker
     self.allPlaceArray = ko.observableArray([]);
-
 
 
     /**
      * Declare Global Variables for mp(map), infoWindow, trafficLayer and mpStartUpTimer
      */
     var mp, infoWindow;
-    var trafficLayer = new google.maps.TrafficLayer(); // https://developers.google.com/maps/documentation/javascript/examples/layer-traffic
-    var bikeLayer = new google.maps.BicyclingLayer(); // https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling 
+    var trafficLayer = new google.maps.TrafficLayer();
     var mpStartUpTimer = window.setTimeout(mapException, 6000);
 
-    var maxZoomService; // https://developers.google.com/maps/documentation/javascript/examples/maxzoom-simple
 
 
     /* Seach Option Show */
@@ -55,11 +50,8 @@ function appViewModel() {
 
         self.showMapOptions(!self.showMapOptions());
         self.showWeatherInfo(!self.showWeatherInfo()); /* http://jsfiddle.net/FgVxY/672/ */
-        self.showPlaceTable(!self.showPlaceTable());
-        document.getElementById('hospital').parentNode.MaterialRadio.uncheck();
-        document.getElementById('police').parentNode.MaterialRadio.uncheck();
-        document.getElementById('firestations').parentNode.MaterialRadio.uncheck();
         clearMarker();
+        clearAllMarker();
 
     };
 
@@ -70,7 +62,9 @@ function appViewModel() {
     self.initMp = function () {
         weather(); // Call Weather API inside the init function.
 
-
+        /**
+         * Google Map's Style Theme: Aquamarine
+         */
         var styleTheme = [{
                 "featureType": "administrative",
                 "elementType": "labels.text.fill",
@@ -410,21 +404,15 @@ function appViewModel() {
             }
         ];
 
-        maxZoomService = new google.maps.MaxZoomService(); //https://developers.google.com/maps/documentation/javascript/examples/maxzoom-simple
-
         // Map Declaration Call
         mp = new google.maps.Map(document.getElementById('mp-c'), {
             zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            styles: styleTheme
+            styles: styleTheme,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-
-        mp.addListener('click', showMaxZoom);
 
         // Map Traffic Feature
         trafficLayer.setMap(mp);
-
-        bikeLayer.setMap(mp);
 
         // Declare infoWindow for user's geolocation.
         infoWindow = new google.maps.InfoWindow();
@@ -432,68 +420,13 @@ function appViewModel() {
         setCurrentLocation();
         centerMap(localLocation);
 
-        // https://developers.google.com/maps/documentation/javascript/examples/maxzoom-simple
-        function showMaxZoom(e) {
-            maxZoomService.getMaxZoomAtLatLng(e.latLng, function (response) {
-                if (response.status !== 'OK') {
-                    infoWindow.setContent('Error in MaxZoomService');
-                } else {
-                    infoWindow.setContent(
-                        'The maximum zoom at this location is: ' + response.zoom);
-                }
-                infoWindow.setPosition(e.latLng);
-                infoWindow.open(mp);
-            });
-        }
-
         // Timer to determine the startup quality of Google Map API
         google.maps.event.addListener(mp, 'tilesloaded', function () {
             window.clearTimeout(mpStartUpTimer);
         });
 
-        //searchPlace();  // This function is under test...
 
     };
-
-    /**
-     * searchPlace() is under benchmark test...
-     * *
-    function searchPlace() {
-        // Search box function HERE!!!
-        // User listAllPlaces() instead of getPlaces()
-
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        mp.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        google.maps.event.addListener(searchBox, 'places_changed', function () {
-            var places = searchBox.listAllPlaces();
-            clbckList();
-            self.allPlaces.removeAll();
-
-            var bounds = new google.maps.LatLngBounds();
-
-            for (var i = 0, place; i < 10; i++) {
-                if (places[i] !== undefined) {
-                    place = places[i];
-
-                    getAllPlaces(place);
-                    createMarker(place);
-                    bounds.extend(place.geometry.location);
-                }
-            }
-            mp.fitBounds(bounds);
-            centerMap();
-        });
-
-
-        google.maps.event.addListener(mp, 'bounds_changed', function () {
-            var bounds = mp.getBounds();
-            searchBox.setBounds(bounds);
-        });
-    }
-     */
-
 
     // If Google Map failed to load it will load mapException.
     function mapException() {
@@ -565,14 +498,6 @@ function appViewModel() {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var infoLoc = '<b>' + 'Your Location' + '</b>';
 
-                var origin = new google.maps.Circle({
-                    map: mp,
-                    radius: 500, // 10 miles in metres
-                    fillColor: '#F70035',
-                    center: position,
-                    strokeColor: '#FFFFFF'
-                });
-
                 self.pos = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
@@ -607,9 +532,6 @@ function appViewModel() {
                     infoWindow.open(mp, mk);
                     mp.setCenter(pos);
                 });
-
-                origin.bindTo('center', mk, 'position');
-
             }, function () {
                 handleLocationError(true, infoWindow, mp.getCenter());
             });
@@ -729,8 +651,7 @@ function appViewModel() {
     self.listClick = function (place) {
         var streetVS = new google.maps.StreetViewService();
         var radius = 50;
-        //var listMarker = "/img/icons/place_pin.png";
-        var marker;
+        var listMarker = "http://maps.google.com/mapfiles/ms/micons/orange.png";
 
         for (var e = 0; e < placeArray.length; e++) {
             if (place.place_id === placeArray[e].place_id) {
@@ -764,7 +685,7 @@ function appViewModel() {
         streetVS.getPanoramaByLocation(marker.position, radius, getStreetView);
 
         // Open infowindow in per place list click.
-        //marker.setIcon(listMarker);
+        marker.setIcon(listMarker);
         infowindow.open(mp, marker);
 
         // Move or center the map into the marker's position at the same time run marker animation.
@@ -772,7 +693,7 @@ function appViewModel() {
         marker.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function () {
             marker.setAnimation(null);
-        }, 1000);
+        }, 400);
 
     };
 
@@ -806,31 +727,22 @@ function appViewModel() {
     }
 
 
-
-
-
     function clbckList(results, status) {
+        clearMarker();
+
         if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+            console.log(status);
+
             bounds = new google.maps.LatLngBounds();
+
             results.forEach(function (place) {
                 place.marker = createAllPlaceMarker(place);
-
-                // https://stackoverflow.com/questions/24844915/google-maps-marker-show-hide
-                $('#hideMrkr').click(function () {
-                    if (!place.marker.getVisible()) {
-                        place.marker.setVisible(true);
-                    } else {
-                        place.marker.setVisible(false);
-                    }
-                });
-
-                console.log("total: " + results.length + "</br>" + place.types);
-
-
                 bounds.extend(new google.maps.LatLng(
                     place.geometry.location.lat(),
                     place.geometry.location.lng()));
             });
+
             mp.fitBounds(bounds);
             results.forEach(getAllPlaceLists);
         }
@@ -845,6 +757,15 @@ function appViewModel() {
             placeArray[i].setMap(null);
         }
         self.placeArray = [];
+        clearAllMarker();
+    }
+
+    function clearAllMarker() {
+        for (var i = 0; i < allListPlaces.length; i++) {
+            allListPlaces[i].setMap(null);
+        }
+        self.allListPlaces.length = 0;
+        console.log("hide");
     }
 
 
@@ -868,16 +789,6 @@ function appViewModel() {
             animation: google.maps.Animation.DROP
         });
 
-        var circle = new google.maps.Circle({
-            map: mp,
-            radius: 1000, // 10 miles in metres
-            fillColor: '#7398CB',
-            center: place.center,
-            strokeColor: '#296D78',
-            title: place.name
-        });
-
-
         // Declare variable to initiate Google Place Service.
         var detailsService = new google.maps.places.PlacesService(mp);
 
@@ -889,7 +800,7 @@ function appViewModel() {
             }, function (place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        console.log(status);
+                        console.error(status);
                         return;
                     });
                 }
@@ -908,15 +819,6 @@ function appViewModel() {
             });
             infowindow.open(mp, this);
             marker.setAnimation(google.maps.Animation.BOUNCE);
-
-            circle.bindTo('center', marker, 'position');
-
-            $('#hideMrkr').click(function () {
-                // https://stackoverflow.com/questions/8260029/how-to-remove-circle-from-google-maps-v3
-                circle.setMap(null);
-            });
-
-
             setTimeout(function () {
                 marker.setAnimation(null);
             }, 1000);
@@ -929,45 +831,34 @@ function appViewModel() {
         return marker;
     }
 
-
-
-
     function createAllPlaceMarker(place) {
-        var iconsApm = {
-            url: "/img/icons/mp_marker.png",
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
-        };
-
-
-        var marker = new google.maps.Marker({
+        var allMarker = new google.maps.Marker({
             map: mp,
             position: place.geometry.location,
-            place_id: place.place_id,
-            animation: google.maps.Animation.DROP,
-            icon: iconsApm
+            animation: google.maps.Animation.DROP
+        });
+
+        google.maps.event.addListener(allMarker, 'click', function () {
+            infowindow.setContent(place.name);
+            infowindow.open(mp, allMarker);
         });
 
 
-
-        google.maps.event.addListener(marker, 'click', function () {
-
-            infowindow.setContent(place.name + '<br>' + place.vicinity);
-
-            infowindow.open(mp, this);
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function () {
-                marker.setAnimation(null);
-            }, 1000);
-            mp.panTo(marker.position);
-        });
+        if (self.showMaptOptions) {
+            ko.utils.arrayForEach(self.allListPlaces(), function (allPlaceArray) {
+                allMarker.setVisible(false);
+                clearAllMarker();
+            });
+            //return self.allListPlaces();
+        } else {
+            allMarker.setVisible(true);
+            console.log("unhide");
+        }
 
 
+        allPlaceArray.push(allMarker);
 
-
-        allPlaceArray.push(marker);
-        return marker;
+        //return allMarker;
     }
 
 }

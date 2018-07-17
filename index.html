@@ -26,11 +26,37 @@
             <h2 class="weather-alert" id="alrt">
             </h2>
         </div>
+
+        
+
+        <div class="all-results-box" data-bind="visible: showPlaceTable">
+
+
+            <table>
+                <thead>
+                    <!--
+                    <div>
+                        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+            
+                    </div>
+                    -->
+                </thead>
+                <tbody data-bind="foreach: allListPlaces">
+                    <tr>
+                        <td data-bind="text: name"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
         <div class="dash-btn" data-bind="click: fadeTag">
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--raised mdl-shadow--8dp">
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--raised mdl-shadow--8dp" id="hideMrkr">
                 <img src="bower_components/ic_explore_black_48dp/ic_explore_black_48dp.png">
             </button>
         </div>
+
         <div class="options-box" data-bind="visible: showMapOptions">
             <h5>Emergency Map</h5>
             <div>
@@ -80,8 +106,9 @@
     <script type="text/javascript" src="bower_components/jquery.min/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/knockout/knockout.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGWK3QBXHdMOIYrSm3zAcNRFiChj9lcHI&libraries=places&callback=appStart"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGWK3QBXHdMOIYrSm3zAcNRFiChj9lcHI&libraries=places&sensor=false&callback=appStart"></script>
     <script type="text/javascript" src="js/mapApp.js"></script>
+    </script>
     <script type="text/javascript" src="bower_components/material-design-lite/material.min.js"></script>
     <script async defer src="https://gitcdn.link/cdn/darkskyapp/skycons/master/skycons.js"></script>
 </body>

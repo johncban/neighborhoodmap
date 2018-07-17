@@ -67,6 +67,21 @@ body, #map {
 	cursor: pointer;
 }
 
+.all-results-box {
+	float: right;
+	opacity: 0.9;
+	background-color:#27A1D3;
+	height: 65%;
+	width: auto;
+	z-index: 99;
+	position: relative;
+	display: block;
+	margin: 1%;
+	margin-top: 10%;
+	overflow: auto;
+}
+
+
 .infobox-address-head {
 	font-size-adjust: initial;
 	font-size: 16px;
