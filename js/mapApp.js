@@ -496,8 +496,8 @@ function appViewModel() {
         console.log("Google Maps Fails to Load >5 sec. Please Check your Internet Connection of Refresh the Web Browser");
     }
     
-    // Window popout google map error handling.
-    window.googleError = function(){
+    // Window popout google map error handling.    
+    function googleError() {
         alert("An error while loading Google Maps occurred, please try to reload the page.");
     };
 
