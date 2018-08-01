@@ -1,14 +1,24 @@
 {
   "name": "knockout",
-  "_cacheHeaders": {
-    "ETag": "\"100b53b03b6d444c5fbb0ec33d7f6f9ac7489524\"",
-    "Content-Length": "17498",
-    "Content-Type": "text/plain; charset=utf-8"
-  },
-  "_release": "e-tag:100b53b03",
+  "version": "3.1.0",
   "main": "knockout.js",
-  "_source": "https://raw.githubusercontent.com/bowerjs/knockout/master/knockout.js",
-  "_target": "*",
-  "_originalSource": "https://raw.githubusercontent.com/bowerjs/knockout/master/knockout.js",
-  "_direct": true
+  "scripts": [
+    "knockout.js"
+  ],
+  "dependencies": {},
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "homepage": "https://github.com/bowerjs/knockout",
+  "_release": "3.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.1.0",
+    "commit": "4425720397abc0b6dd630a4de65c3a502bb59c86"
+  },
+  "_source": "https://github.com/bowerjs/knockout.git",
+  "_target": "^3.1.0",
+  "_originalSource": "knockout.js"
 }

@@ -33,54 +33,58 @@ Here are the Project Files Preview that require to run Neighborhood map.
 ├── README.md
 ├── bower.json
 ├── bower_components
-│   ├── ic_explore_black_48dp
-│   │   └── ic_explore_black_48dp.png
-│   ├── jquery
-│   │   ├── AUTHORS.txt
-│   │   ├── LICENSE.txt
-│   │   ├── README.md
-│   │   ├── bower.json
-│   │   └── dist
-│   │       ├── core.js
-│   │       ├── jquery.js
-│   │       ├── jquery.min.js
-│   │       ├── jquery.min.map
-│   │       ├── jquery.slim.js
-│   │       ├── jquery.slim.min.js
-│   │       └── jquery.slim.min.map
-│   ├── jquery.min
-│   │   └── jquery.min.js
-│   ├── knockout
-│   │   ├── README.md
-│   │   ├── bower.json
-│   │   ├── knockout.debug.js
-│   │   └── knockout.js
-│   ├── material-design-icons
-│   │   └── action
-│   │       └── drawable-mdpi
-│   │           ├── ic_explore_black_18dp.png
-│   │           ├── ic_explore_black_24dp.png
-│   │           ├── ic_explore_black_36dp.png
-│   │           └── ic_explore_black_48dp.png
-│   └── material-design-lite
-│       ├── LICENSE
-│       ├── README.md
-│       ├── bower.json
-│       ├── gulpfile.babel.js
-│       ├── material.css
-│       ├── material.js
-│       ├── material.min.css
-│       ├── material.min.css.map
-│       ├── material.min.js
-│       ├── material.min.js.map
-│       └── package.json
+│   ├── ic_explore_black_48dp
+│   │   └── ic_explore_black_48dp.png
+│   ├── jquery
+│   │   ├── AUTHORS.txt
+│   │   ├── LICENSE.txt
+│   │   ├── README.md
+│   │   ├── bower.json
+│   │   └── dist
+│   │       ├── core.js
+│   │       ├── jquery.js
+│   │       ├── jquery.min.js
+│   │       ├── jquery.min.map
+│   │       ├── jquery.slim.js
+│   │       ├── jquery.slim.min.js
+│   │       └── jquery.slim.min.map
+│   ├── jquery.min
+│   │   └── jquery.min.js
+│   ├── knockout
+│   │   ├── README.md
+│   │   ├── bower.json
+│   │   ├── knockout.debug.js
+│   │   └── knockout.js
+│   ├── material-design-icons
+│   │   └── action
+│   │       └── drawable-mdpi
+│   │           ├── ic_explore_black_18dp.png
+│   │           ├── ic_explore_black_24dp.png
+│   │           ├── ic_explore_black_36dp.png
+│   │           └── ic_explore_black_48dp.png
+│   └── material-design-lite
+│       ├── LICENSE
+│       ├── README.md
+│       ├── bower.json
+│       ├── gulpfile.babel.js
+│       ├── material.css
+│       ├── material.js
+│       ├── material.min.css
+│       ├── material.min.css.map
+│       ├── material.min.js
+│       ├── material.min.js.map
+│       └── package.json
 ├── css
-│   ├── google.css
-│   └── main.css
+│   ├── google.css
+│   └── main.css
+├── img
+│   └── icons
 ├── index.html
 ├── js
-│   └── mapApp.js
+│   └── mapApp.js
 └── localserv.py
+
+14 directories, 40 files
 ```
 
 
